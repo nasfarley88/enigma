@@ -51,6 +51,9 @@ class Enigma:
             self.rotors['middle right'] = self._rotor_types[rotor_list[2]]
             self.rotors['right'] = self._rotor_types[rotor_list[3]]
 
+        elif self.type == 'CUSTOM':
+            for i, rotor_index in enumerate(rotor_list):
+                self.rotors[str(i)] = self._rotor_types[rotor_index]
         else:
             # TODO put proper exception here
             assert False, "Please specify M3 or M4"
@@ -199,6 +202,14 @@ class Enigma:
         #       fill += random.choice(string.ascii_letters.upper())
         # out_str = ' '.join(out_str[i:i+3] for i in range(0, len(out_str),3)) + fill
         return out_str
+
+    def _assert_key_length(self, key):
+        if self.type == 'M3':
+            assert len(key) == 3, "ERROR: Invalid key length!"
+        elif self.type == 'M4':
+            assert len(key) == 4, "ERROR: Invalid key length!"
+        else:
+            return
 
     def set_key(self, key):
         if len(self.rotors) != len(key):
